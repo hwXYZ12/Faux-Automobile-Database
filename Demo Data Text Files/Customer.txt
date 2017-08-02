@@ -1,0 +1,10 @@
+100100101	none	Alice	McKeeny	F	alice@blah.com	19881010	Chapin Apt 2010,Health Drive	Stony Brook	NY	11790	4314649881	8
+100100102	none	Bob	Wonderwall	M	bob@blah.com	19880608	21 MajorApt,Oak St.	NewYork	NY	11700	4314649882	5
+100100103	none	Elisa	Roth	F	elisa@blah.com	19921110	43 Corvette Apt, Maple St	Stony Brook	NY	11790	4314649883	5
+100100104	none	Kelly	Mcdonald	F	kelly@blah.com	19911111	54 East Apt,Oak St	NewYork	NY	11700	4314649884	5
+100100105	none	Wendy	Stanley	F	wendy@blah.com	19920808	21 MajorApt,Oak St.	Stony Brook	NY	11790	4314649885	2
+100100106	none	Dennis	Ritchie	M	den@blah.com	19920302	43 Corvette Apt, Maple St	NewYork	NY	11700	4314649886	2
+100100107	none	Patrick	Norris	M	patnor@blahblah.com	19920807	Chapin Apt 1001,Health Drive	Stony Brook	NY	11790	4314649887	2
+100100108	none	Chuck	Stewart	M	chuck@blah.com	19910201	54 East Apt,Oak St	NewYork	NY	11700	4314649888	2
+100100109	none	Brad	Norton	M	brad@blah.com	19920901	Chapin Apt 2010,Health Drive	Stony Brook	NY	11790	4314649889	2
+100100110	none	Jeniffer	Buffet	F	jennycool123@blah.com	19890801	Chapin Apt 1223,Health Drive	NewYork	NY	11700	4314649890	2

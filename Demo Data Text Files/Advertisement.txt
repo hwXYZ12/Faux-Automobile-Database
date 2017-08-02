@@ -1,0 +1,2 @@
+33331	111221	car(s)	20110410	Ford	2012-Mustang	Ford Mustang! First 10 cutomers get a 10%Discount!	22000	30
+33332	111222	clothing	20110410	GAP	Superman Shirt	Just $5!!!!!!!	5	100

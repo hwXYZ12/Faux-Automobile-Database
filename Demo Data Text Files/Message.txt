@@ -1,0 +1,4 @@
+3001	20111010	hey!	Hey! Do u have assignent 1 questions?	100100101	100100102
+3002	20111010	re: hey!	nope? I think patrick has them.	100100102	100100101
+3003	20111111	happy bday!	hey u there! Have an amazing and super duper bday! Don?t miss me too much :D	100100103	100100104
+3004	20111110	will be late	Hey! I am sorry I wont make it to tonights appointment.Stuck with some work! :(	100100105	100100105

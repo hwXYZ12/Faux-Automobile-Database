@@ -1,0 +1,226 @@
+CREATE TABLE	Employee (
+	EmployeeID		INTEGER,
+	Password		VARCHAR(20)	NOT NULL	DEFAULT 'none',
+	SSN			INTEGER		NOT NULL,
+	FirstName		VARCHAR(50)	NOT NULL,
+	LastName		VARCHAR(50) 	NOT NULL,
+	Address			VARCHAR(50),
+	City			VARCHAR(50),
+	State			VARCHAR(50),
+	ZipCode			INTEGER,
+	Telephone		VARCHAR(20),
+	StartDate		DATE			NOT NULL,
+	HourlyRate		DOUBLE(13, 4)	NOT NULL,
+	Role			VARCHAR(50)	NOT NULL,
+	CHECK ( Role IN ('Customer Representative', 'Manager')),
+	CHECK (HourlyRate > 0.00),
+	PRIMARY KEY (EmployeeID),
+	UNIQUE (SSN) );
+
+CREATE TABLE	Advertisement (
+	AdvertisementID		INTEGER,
+	EmployeeID		INTEGER		NOT NULL,
+	Type			VARCHAR(50)	NOT NULL,
+	Date			DATE		NOT NULL,
+	Company			VARCHAR(50)	NOT NULL,
+	ItemName		VARCHAR(50),
+	Content			VARCHAR(200),
+	UnitPrice		DOUBLE(13,4)	NOT NULL,
+	AvailableUnits		INTEGER		NOT NULL,
+	CHECK (AvailableUnits >= 0),
+	CHECK (UnitPrice > 0),
+	CHECK (Type IN ('car(s)', 'clothing', 'life insurance', 'toys') ),
+	PRIMARY KEY (AdvertisementID),
+	FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID)
+		ON DELETE NO ACTION
+		ON UPDATE CASCADE);
+
+CREATE TABLE	Customer (
+	CustomerID			INTEGER,
+	Password			VARCHAR(20)	NOT NULL	DEFAULT 'none',
+	FirstName			VARCHAR(20)	NOT NULL,
+	LastName			VARCHAR(20)	NOT NULL,
+	Sex				Char(1)		NOT NULL,
+	EmailAddress		VARCHAR(50),
+	DateOfBirth			DATE			NOT NULL,
+	Address			VARCHAR(50),
+	City				VARCHAR(50),
+	State				VARCHAR(50),
+	ZipCode			INTEGER,
+	Telephone			VARCHAR(20),
+	/*Preferences			VARCHAR(50)	NOT NULL,
+		Preferences will be stored in another table in order to prevent using
+		a set defined attribute
+	*/
+	Rating				INTEGER,
+	PRIMARY KEY (CustomerID));
+
+CREATE TABLE	Circle (
+	CircleID		INTEGER,
+	CircleName		VARCHAR(50),
+	Type			VARCHAR(50)	NOT NULL	DEFAULT 'Group',
+	Owner			INTEGER		NOT NULL,
+	PRIMARY KEY (CircleID),
+	FOREIGN KEY (Owner) REFERENCES Customer(CustomerID)
+		ON DELETE NO ACTION
+		ON UPDATE CASCADE);
+
+CREATE TABLE	Page (
+	PageID		INTEGER,
+	PostCount		INTEGER	NOT NULL,
+	AssociatedCircle	INTEGER,
+	CHECK ( PostCount >= 0),
+	PRIMARY KEY (PageID),
+	FOREIGN KEY (AssociatedCircle) REFERENCES Circle(CircleID)
+		ON DELETE NO ACTION
+		ON UPDATE CASCADE );
+
+
+CREATE TABLE	Message (
+	MessageID		INTEGER,
+	Date			DATE		NOT NULL,
+	Subject			VARCHAR(50),
+	Content			VARCHAR(200),
+	Sender			INTEGER		NOT NULL,
+	Receiver		INTEGER		NOT NULL,
+	PRIMARY KEY (MessageID),
+	FOREIGN KEY (Receiver) REFERENCES Customer(CustomerID)
+		ON DELETE NO ACTION
+		ON UPDATE CASCADE,
+	FOREIGN KEY (Sender) REFERENCES Customer(CustomerID)
+		ON DELETE NO ACTION
+		ON UPDATE CASCADE);
+
+CREATE TABLE	Post (
+	PostID			INTEGER,
+	Date			DATE		NOT NULL,
+	Content			VARCHAR(200),
+	CommentCount		INTEGER	NOT NULL	DEFAULT 0,
+	PostAuthor		INTEGER	NOT NULL,
+	PageID			INTEGER	NOT NULL,
+	CHECK ( CommentCount >= 0),
+	PRIMARY KEY (PostID),
+	FOREIGN KEY (PostAuthor) REFERENCES Customer(CustomerID)
+		ON DELETE NO ACTION
+		ON UPDATE CASCADE,
+	FOREIGN KEY (PageID) REFERENCES Page(PageID)
+		ON DELETE NO ACTION
+		ON UPDATE CASCADE);
+
+CREATE TABLE Account (	
+	CustomerID			INTEGER,
+	AccountNumber			INTEGER,
+	AccountCreationDate		DATE		NOT NULL,
+	CreditCardNumber		BIGINT,
+	PRIMARY KEY (AccountNumber),
+	FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID)
+		ON DELETE NO ACTION
+		ON UPDATE CASCADE);
+	
+CREATE TABLE CustomerPreferences (
+	CustomerID			INTEGER		NOT NULL,
+	Preference			VARCHAR(50)	DEFAULT	'Default',
+	PRIMARY KEY (CustomerID, Preference),
+	FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID)
+		ON DELETE NO ACTION
+		ON UPDATE CASCADE);
+
+CREATE TABLE	Comment (
+	CommentID		INTEGER,
+	Date			TIMESTAMP	NOT NULL,
+	Content			VARCHAR(200),
+	Author			INTEGER		NOT NULL,
+	PostID			INTEGER 	NOT NULL,
+	PRIMARY KEY (CommentID),
+	FOREIGN KEY (Author) REFERENCES Customer(CustomerID)
+		ON DELETE NO ACTION
+		ON UPDATE CASCADE,
+	FOREIGN KEY (PostID) REFERENCES Post(PostID)
+		ON DELETE NO ACTION
+		ON UPDATE CASCADE);
+
+CREATE TABLE	Sale (
+	TransactionID			INTEGER,
+	DateOfSale			DATE		NOT NULL,
+	AdvertisementID			INTEGER		NOT NULL,
+	NumUnits			INTEGER		NOT NULL,
+	AccountNumber			INTEGER		NOT NULL,
+	CHECK (NumUnits > 0),
+	PRIMARY KEY (TransactionID),
+	FOREIGN KEY (AdvertisementID) REFERENCES Advertisement(AdvertisementID)
+		ON DELETE NO ACTION
+		ON UPDATE CASCADE,	
+	FOREIGN KEY (AccountNumber) REFERENCES Account(AccountNumber)
+		ON DELETE NO ACTION
+		ON UPDATE CASCADE);
+
+CREATE TABLE CircleMembership(	
+	CustomerID			INTEGER,
+	CircleID			INTEGER,
+	PRIMARY KEY (CustomerID, CircleID),
+	FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID)
+		ON DELETE NO ACTION
+		ON UPDATE CASCADE,
+	FOREIGN KEY (CircleID) REFERENCES Circle(CircleID)
+		ON DELETE NO ACTION
+		ON UPDATE CASCADE);
+
+CREATE TABLE CircleRequest(	
+	CustomerID			INTEGER,
+	CircleID			INTEGER,
+	PRIMARY KEY (CustomerID, CircleID),
+	FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID)
+		ON DELETE NO ACTION
+		ON UPDATE CASCADE,
+	FOREIGN KEY (CircleID) REFERENCES Circle(CircleID)
+		ON DELETE NO ACTION
+		ON UPDATE CASCADE);
+
+CREATE TABLE CircleInvite(	
+	CustomerID			INTEGER,
+	CircleID			INTEGER,
+	PRIMARY KEY (CustomerID, CircleID),
+	FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID)
+		ON DELETE NO ACTION
+		ON UPDATE CASCADE,
+	FOREIGN KEY (CircleID) REFERENCES Circle(CircleID)
+		ON DELETE NO ACTION
+		ON UPDATE CASCADE);
+
+CREATE TABLE PostLikes(	
+	PostID				INTEGER,
+	CustomerID			INTEGER,	
+	PRIMARY KEY (PostID, CustomerID),
+	FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID)
+		ON DELETE NO ACTION
+		ON UPDATE CASCADE,
+	FOREIGN KEY (PostID) REFERENCES Post(PostID)
+		ON DELETE NO ACTION
+		ON UPDATE CASCADE);
+
+CREATE TABLE CommentLikes(
+	CommentID			INTEGER,
+	CustomerID			INTEGER,	
+	PRIMARY KEY (CommentID, CustomerID),
+	FOREIGN KEY (CommentID) REFERENCES Comment(CommentID)
+		ON DELETE NO ACTION
+		ON UPDATE CASCADE,
+	FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID)
+		ON DELETE NO ACTION
+		ON UPDATE CASCADE);
+
+
+LOAD DATA LOCAL INFILE "C:/Users/William/Desktop/Demo Data Text Files/Employee.txt" INTO TABLE employee LINES TERMINATED BY '\r\n';
+LOAD DATA LOCAL INFILE "C:/Users/William/Desktop/Demo Data Text Files/Advertisement.txt" INTO TABLE advertisement LINES TERMINATED BY '\r\n';
+LOAD DATA LOCAL INFILE "C:/Users/William/Desktop/Demo Data Text Files/Customer.txt" INTO TABLE customer LINES TERMINATED BY '\r\n';
+LOAD DATA LOCAL INFILE "C:/Users/William/Desktop/Demo Data Text Files/Circle.txt" INTO TABLE circle LINES TERMINATED BY '\r\n';
+LOAD DATA LOCAL INFILE "C:/Users/William/Desktop/Demo Data Text Files/Page.txt" INTO TABLE page LINES TERMINATED BY '\r\n';
+LOAD DATA LOCAL INFILE "C:/Users/William/Desktop/Demo Data Text Files/Message.txt" INTO TABLE message LINES TERMINATED BY '\r\n';
+LOAD DATA LOCAL INFILE "C:/Users/William/Desktop/Demo Data Text Files/Post.txt" INTO TABLE post LINES TERMINATED BY '\r\n';
+LOAD DATA LOCAL INFILE "C:/Users/William/Desktop/Demo Data Text Files/Account.txt" INTO TABLE account LINES TERMINATED BY '\r\n';
+LOAD DATA LOCAL INFILE "C:/Users/William/Desktop/Demo Data Text Files/CustomerPreferences.txt" INTO TABLE customerpreferences LINES TERMINATED BY '\r\n';
+LOAD DATA LOCAL INFILE "C:/Users/William/Desktop/Demo Data Text Files/Comment.txt" INTO TABLE comment LINES TERMINATED BY '\r\n';
+LOAD DATA LOCAL INFILE "C:/Users/William/Desktop/Demo Data Text Files/Sale.txt" INTO TABLE sale LINES TERMINATED BY '\r\n';
+LOAD DATA LOCAL INFILE "C:/Users/William/Desktop/Demo Data Text Files/CircleMembership.txt" INTO TABLE circlemembership LINES TERMINATED BY '\r\n';
+LOAD DATA LOCAL INFILE "C:/Users/William/Desktop/Demo Data Text Files/PostLikes.txt" INTO TABLE postlikes LINES TERMINATED BY '\r\n';
+LOAD DATA LOCAL INFILE "C:/Users/William/Desktop/Demo Data Text Files/CommentLikes.txt" INTO TABLE commentlikes LINES TERMINATED BY '\r\n';

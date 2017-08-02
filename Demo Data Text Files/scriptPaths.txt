@@ -1,0 +1,2 @@
+C:\Users\William\Desktop\Demo Data Text Files\batchLoadDataBase.txt
+C:\Users\William\Desktop\Demo Data Text Files\dropTables.txt

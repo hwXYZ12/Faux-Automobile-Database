@@ -1,0 +1,1 @@
+drop tables CommentLikes, PostLikes, CircleMembership, CircleRequest, CircleInvite, Sale, Comment, CustomerPreferences, Account, Post, Message, Page, Circle, Customer, Advertisement, Employee;

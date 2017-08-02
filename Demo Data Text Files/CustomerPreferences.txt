@@ -1,0 +1,15 @@
+100100101	car(s)
+100100101	life insurance
+100100102	clothing
+100100102	car(s)
+100100103	clothing
+100100104	toys
+100100104	clothing
+100100105	life insurance
+100100106	life insurance
+100100107	clothing
+100100107	car(s)
+100100108	life insurance
+100100108	clothing
+100100109	life insurance
+100100110	life insurance

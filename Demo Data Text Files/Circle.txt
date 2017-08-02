@@ -1,0 +1,6 @@
+8001	My Friends	Friends	100100101
+8002	Best Friends	Friends	100100102
+8003	StonyBrookGang	Friends	100100105
+8004	CSJunkies	Group	100100107
+8005	Norris Family	Family	100100109
+8006	Microsoft Groupies	Company	100100106
