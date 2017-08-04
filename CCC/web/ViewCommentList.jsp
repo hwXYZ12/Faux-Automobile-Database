@@ -2,7 +2,7 @@
 <%-- 
     Document   : CourseDelete
     Created on : Oct 28, 2014, 11:27:08 PM
-    Author     : Ahmad
+    Author     : William
 --%>
 
 <%@page import="DBWorks.DBConnection"%>

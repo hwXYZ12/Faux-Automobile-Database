@@ -1,7 +1,7 @@
 <%-- 
     Document   : logout
     Created on : Oct 23, 2014, 9:34:24 PM
-    Author     : Ahmad
+    Author     : William
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
